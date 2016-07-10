@@ -4,7 +4,9 @@ This file allows to write text to the console, that will be automatically highli
 
 The colors are applied via ASCII escape sequences, so all terminals that recognize ASCII escape sequences are supported.
 
-This code sets up the Highlighting, of all python keywords, comments, numeric-literals and most strings-literal types
+##Example
+
+This code sets up the highlighting, of all python keywords, comments, numeric-literals and most strings-literal types
 ```python
 def _highlightedWriterTest():
   kwds = """ and       del       from      not       while     as        elif      global    or        with
@@ -28,6 +30,6 @@ def _highlightedWriterTest():
   f = open(__file__, "r")
   w.write(f.read())
 ```
-Output:
+###Output
 ![Alt text](img/example.png?raw=true "Example")
 
