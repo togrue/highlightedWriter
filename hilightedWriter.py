@@ -74,7 +74,8 @@ class HighlightedWriter:
   def __init__(self, outputStream, colorMapping, flushAfterWrite = True, colorMode = "auto", wordMatchRegex=r"[a-zA-Z_][\w_]*"):
     """
     outputStream =  the stream where the colorized Text goes
-    colorMapping = a dictionary consisting of keyword/captureRegex (key) to color (value) items eg. {"for":"blue", "while":"red", "//.*":"green"}
+    colorMapping = a dictionary consisting of keyword/captureRegex (key) to color (value) items eg. {"for":"bright-blue", "while":"red", "//.*":"green"}
+                   Available colors are: "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white" and the same colors in "bright-{colorname}" variants.
                    implemention detail: all the regex expressions are combined into one single regex (so if modifiers are applied to a key they have to be undone at the end of the regex):
                    e.g. "(?i)...(?-i)" or simply "(?i:...)"
     flushAfterWrite = if True, flush() is called at the stream after writing.
@@ -97,9 +98,11 @@ class HighlightedWriter:
     
     regexes = []
     for n, r in enumerate(regexMappings):
-      re.compile(r[0]) # Try to compile the regexes or fail.
+      # Try to compile the single regexes (syntax only check)
+      re.compile(r[0]) 
       groupName = "g_"+str(n)
-      self.regexColorMap[groupName] = r[1] # associate the color, with a generated regex group name
+      # associate the color, with a generated regex group name
+      self.regexColorMap[groupName] = r[1] 
       regexes.append("(?P<%s>%s)"%(groupName, r[0]))
       
     regexes.append("(?P<g_word>%s)"%(wordMatchRegex))
@@ -167,13 +170,14 @@ def _highlightedWriterTest():
         "#.*"                                                   : "green"              # comments...
        ,"'''([^']|'{1,2})*?'''|r'[^']*'|'([^\\']|\\\\.)*'"      : "bright-green"       # 'strings'
        ,'"""([^"]|"{1,2})*?"""|r"[^"]*"|"(\\\\.|[^\\\\"])*"'    : "bright-green"       # "strings"
-       ,r"(\d+(\.\d+(e[+-]?\d+)?)?)|(\.\d+(e[+-]?\d+)?)"        : "red"                # "numbers, fp-literals"
+       ,r"(\d+(\.\d+(e[+-]?\d+)?)?)|(\.\d+(e[+-]?\d+)?)"        : "red"                # numbers, fp-literals
        }
        
   # Add the keywords to the dictionary (e.g. "and" : "bright-blue")
   for kw in re.finditer("\w+", kwds):
     wordColorDict[kw.group(0)] = "bright-blue"
 
+  # Initialize the HighlightedWriter 
   w = HighlightedWriter(sys.stdout, wordColorDict, colorMode="auto") 
   
   #Print itself
@@ -181,5 +185,3 @@ def _highlightedWriterTest():
   w.write(f.read())
 
   
-_highlightedWriterTest()
-
