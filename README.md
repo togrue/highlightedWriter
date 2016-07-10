@@ -1,6 +1,6 @@
 # highlightedWriter
 
-This file allows to write text to the console, that will be automatically highlighted.
+Allows to write text to the console, that will be automatically highlighted.
 
 The colors are applied via ASCII escape sequences, so all terminals that recognize ASCII escape sequences are supported.
 
