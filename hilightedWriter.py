@@ -54,12 +54,12 @@ def streamSupportsColor(stream):
   
 class HighlightedWriter:
   """
-  Adds terminal color-escape-sequences to the output text, despite to a highlighting dictionary.
+  Adds terminal color-escape-sequences to the output text, according to a highlighting dictionary.
   
-  The Highlighting dictionary distinguishs between non-regex strings, they are only highlighted if they match a whole word, and regex strings.
-  Strings are considered as Regex string if they contain a regex only character. (e.g. + * ( ) [ ] { })
-  
-  For a example see below, in the test function.
+  The Highlighting dictionary distinguishs between 
+   - non-regex strings, they are only highlighted if they match a whole word
+   - regex strings
+  Color mapping keys are considered as a Regex, if the wordMatchRegex doesn't match the key string.
   """
   # A dictionary that contains all the non regex matches.
   wordsColorMap = {}
